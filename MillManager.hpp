@@ -28,19 +28,14 @@
 
 class MillManager {
   private:
+    friend void deactivateMill(MillManager *millManager);  
+    
     MillConfiguration& millConfiguration;
     int pin;
     Ticker stopTicker;
 
-    
-    
-    
-
   public:
- 
     MillManager(MillConfiguration& millConfiguration, int pin);
-
-//    ~MillManager();
 
     void toogle();
 
@@ -49,7 +44,7 @@ class MillManager {
 
 
 
-  friend void deactivateMill(MillManager *millManager);  
+
 };
 
 

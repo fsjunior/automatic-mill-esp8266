@@ -30,13 +30,13 @@ MillConfiguration::MillConfiguration(): millTime(60)
 }
 
 
-int MillConfiguration::getMillTime()
+unsigned MillConfiguration::getMillTime()
 {
   return millTime;
   
 }
 
-int MillConfiguration::setMillTime(int millTime)
+void MillConfiguration::setMillTime(unsigned millTime)
 {
   this->millTime = millTime;
 

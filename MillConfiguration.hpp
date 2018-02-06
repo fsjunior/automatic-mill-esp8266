@@ -25,7 +25,7 @@
 
 class MillConfiguration {
   private:
-    int millTime;
+    unsigned millTime;
 
     void saveConfiguration();
     void loadConfiguration();
@@ -36,8 +36,8 @@ class MillConfiguration {
     MillConfiguration();
 
 
-    int getMillTime();
-    int setMillTime(int millTime);
+    unsigned getMillTime();
+    void setMillTime(unsigned millTime);
   
 };
 

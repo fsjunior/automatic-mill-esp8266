@@ -20,19 +20,14 @@
  */
  
 #include "MillManager.hpp"
-#include <functional>
 #include "Arduino.h"
 
-MillManager::MillManager(MillConfiguration& millConfiguration, int pin):millConfiguration(millConfiguration),pin(pin)
+MillManager::MillManager(MillConfiguration& millConfiguration, int pin): millConfiguration(millConfiguration), pin(pin)
 {
   pinMode(pin, OUTPUT);
   digitalWrite(D0, HIGH);
 }
 
-//MillManager::~MillManager()
-//{
-//  delete millConfiguration;
-//}
 
 void deactivateMill(MillManager *millManager)
 {
@@ -43,7 +38,7 @@ void MillManager::activate()
 {
   digitalWrite(pin, LOW); //low is activated
 
-  if(millConfiguration.getMillTime() != -1) {
+  if(millConfiguration.getMillTime() != 0) {
     stopTicker.once(millConfiguration.getMillTime(), deactivateMill, this);  
   }
 }
@@ -55,14 +50,12 @@ void MillManager::deactivate()
   deactivateMill(this);
 }
 
-
-
 void MillManager::toogle()
 {
-  if(digitalRead(pin) == LOW) {
-    deactivate();
+  if(digitalRead(pin) == HIGH) {
+    activate();    
   } else {
-    activate();
+    deactivate();
   }
 }
 

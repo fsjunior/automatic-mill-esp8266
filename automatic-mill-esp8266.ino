@@ -27,21 +27,16 @@
 #define MOTOR_PIN D0
 #define BUTTON_PIN D1
 
-static bool millRunning = false;
-
-int milltime = 0;
-
-
 
 Bounce buttonDebouncer = Bounce();
 
 MillConfiguration millConfiguration;
 MillManager millManager(millConfiguration, MOTOR_PIN);
 
-void setup() {
-  // put your setup code here, to run once:
+void setup() {  
   pinMode(BUTTON_PIN, INPUT);
 
+  //Configure button debouncer
   buttonDebouncer.attach(BUTTON_PIN);
   buttonDebouncer.interval(5);
 }
@@ -53,7 +48,7 @@ void loop() {
   
   if(buttonDebouncer.rose()) {
     millManager.toogle();
-  }
+  } //easy peasy
   
   delay(30);
 

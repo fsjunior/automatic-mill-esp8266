@@ -44,10 +44,6 @@ class MillManager {
 
 
     bool isRunning();
-
-
-
-
 };
 
 

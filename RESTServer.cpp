@@ -21,8 +21,6 @@
  
 #include "RESTServer.hpp"
 #include <ArduinoJson.h>
-#include <functional>
-
 
 #define DATA_ARRAY_SIZE 64
 
@@ -98,11 +96,6 @@ RESTServer::RESTServer(MillConfiguration& millConfiguration, MillManager &millMa
 
   server.on("/toogle", HTTP_POST, std::bind(&RESTServer::handleToogle, this));
 }
-
-//void RESTServer::onToogle(std::function<void()> fn)
-//{
-//  onToogleCallback = fn;
-//}
 
 void RESTServer::begin()
 {

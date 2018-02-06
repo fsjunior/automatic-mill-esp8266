@@ -52,10 +52,16 @@ void MillManager::deactivate()
 
 void MillManager::toogle()
 {
-  if(digitalRead(pin) == HIGH) {
+  if(!isRunning()) {
     activate();    
   } else {
     deactivate();
   }
+}
+
+
+bool MillManager::isRunning()
+{
+  return digitalRead(pin) == LOW;
 }
 

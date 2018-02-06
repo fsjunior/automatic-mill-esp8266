@@ -18,34 +18,63 @@
  * 
  * 
  */
- 
+
+/*Wifi*/
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+/*create a password.h file and put a #define inside it with your password. for example:
+ * #define PASSWORD "fuba"
+ */
+#include "password.h"
+
+
+/*Button*/
 #include <Bounce2.h>
+
+/*Mill*/
 #include "MillManager.hpp"
 #include "MillConfiguration.hpp"
+#include "RESTServer.hpp"
 
 
+/*Button*/
 #define MOTOR_PIN D0
 #define BUTTON_PIN D1
 
+Bounce buttonDebouncer;
 
-Bounce buttonDebouncer = Bounce();
-
+/*Mill*/
 MillConfiguration millConfiguration;
 MillManager millManager(millConfiguration, MOTOR_PIN);
 
+/* REST Server */
+RESTServer restServer(millConfiguration, millManager, 80);
+
 void setup() {  
+  //Setup button
   pinMode(BUTTON_PIN, INPUT);
 
   //Configure button debouncer
   buttonDebouncer.attach(BUTTON_PIN);
   buttonDebouncer.interval(5);
+
+  // setup wifi
+  WiFi.softAP("Automatic Mill", PASSWORD);
+  MDNS.begin("mill");
+
+
+  //setup rest server
+
+  restServer.begin();
 }
 
 
 
 void loop() {
-  buttonDebouncer.update();
+  restServer.handleClient();
   
+  buttonDebouncer.update();
+    
   if(buttonDebouncer.rose()) {
     millManager.toogle();
   } //easy peasy

@@ -26,6 +26,8 @@
 
 MillConfiguration::MillConfiguration(): millTime(60)
 {
+  SPIFFS.begin();
+  
   loadConfiguration();
 }
 
@@ -46,7 +48,7 @@ void MillConfiguration::setMillTime(unsigned millTime)
 
 void MillConfiguration::saveConfiguration()
 {
-  File f = SPIFFS.open("/MillConfiguration", "w");
+  File f = SPIFFS.open("/MillConfiguration", "w+");
   if(f) {
     f.write((uint8_t *)&millTime, sizeof(millTime));
   }

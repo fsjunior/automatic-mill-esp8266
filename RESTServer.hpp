@@ -19,36 +19,40 @@
  * 
  */
  
-#ifndef _MILL_MANAGER_HPP_
-#define _MILL_MANAGER_HPP_
+#ifndef _REST_SERVER_H_
+#define _REST_SERVER_H_
 
-#include <Ticker.h>
+#include <ESP8266WebServer.h>
 #include "MillConfiguration.hpp"
+#include "MillManager.hpp"
 
 
-class MillManager {
-  private:
-    friend void deactivateMill(MillManager *millManager);  
-    
+class RESTServer {
+  private:    
     MillConfiguration& millConfiguration;
-    int pin;
-    Ticker stopTicker;
+    MillManager &millManager;
+    
+    ESP8266WebServer server;
+
+    void replySuccess();
+    
+    void handlePing();
+    void handlePostMillTime();
+    void handleGetMillTime();
+
+    void handleToogle();
+    void handleGetStatus();
+    
 
   public:
-    MillManager(MillConfiguration& millConfiguration, int pin);
-
-    void toogle();
-
-    void activate();
-    void deactivate();
+    RESTServer(MillConfiguration& millConfiguration, MillManager &millManager, int port = 80);
 
 
-    bool isRunning();
-
-
-
-
+    void begin();
+    void handleClient();
 };
 
 
-#endif /* _MILL_MANAGER_HPP_ */
+
+
+#endif /* _REST_SERVER_H_ */

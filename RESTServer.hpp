@@ -35,6 +35,7 @@ class RESTServer {
     ESP8266WebServer server;
 
     void replySuccess();
+    void replyFailure();
     
     void handlePing();
     void handlePostMillTime();

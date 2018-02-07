@@ -37,6 +37,19 @@ void RESTServer::replySuccess()
 }
 
 
+void RESTServer::replyFailure()
+{
+  StaticJsonBuffer<DATA_ARRAY_SIZE> actualBuffer;
+  JsonObject& root = actualBuffer.createObject();
+  root["Result"] = false;
+
+  String output;
+  root.printTo(output);
+  server.send ( 500, "application/json", output);  
+}
+
+
+
 void RESTServer::handlePing()
 {
   replySuccess();
@@ -52,7 +65,7 @@ void RESTServer::handleGetStatus()
 {
    StaticJsonBuffer<DATA_ARRAY_SIZE> actualBuffer;
   JsonObject& root = actualBuffer.createObject();
-  root["Running"] = millManager.isRunning();
+  root["Status"] = millManager.isRunning();
 
   String output;
   root.printTo(output);
@@ -65,10 +78,17 @@ void RESTServer::handlePostMillTime()
     StaticJsonBuffer<DATA_ARRAY_SIZE> newBuffer;
     JsonObject& root = newBuffer.parseObject(server.arg("plain"));
 
-    millConfiguration.setMillTime(root["Mill Time"]);
+    if (root.success()) {
+      millConfiguration.setMillTime(root["Mill Time"]);
 
-    handleGetMillTime();   
-  }
+      handleGetMillTime();   
+      
+      return;
+    }
+  } 
+
+  //otherwise
+  replyFailure();
 }
 
 void RESTServer::handleGetMillTime()

@@ -38,6 +38,8 @@ void MillManager::activate()
 {
   digitalWrite(pin, LOW); //low is activated
 
+  startedTime = millis();
+
   if(millConfiguration.getMillTime() != 0) {
     stopTicker.once(millConfiguration.getMillTime(), deactivateMill, this);  
   }
@@ -60,8 +62,11 @@ void MillManager::toogle()
 }
 
 
-bool MillManager::isRunning()
+unsigned long MillManager::isRunning()
 {
-  return digitalRead(pin) == LOW;
+  if(digitalRead(pin) == LOW)
+    return millis() - startedTime;
+  else
+    return 0;
 }
 

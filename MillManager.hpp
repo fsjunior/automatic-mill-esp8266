@@ -28,6 +28,7 @@
 
 class MillManager {
   private:
+    unsigned long startedTime;
     friend void deactivateMill(MillManager *millManager);  
     
     MillConfiguration& millConfiguration;
@@ -43,7 +44,7 @@ class MillManager {
     void deactivate();
 
 
-    bool isRunning();
+    unsigned long isRunning();
 };
 
 
